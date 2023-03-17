@@ -53,9 +53,8 @@ public class recycleViewAdapter extends RecyclerView.Adapter<recycleViewAdapter.
             public void onClick(View view) {
                 String strUri = "http://maps.google.com/maps?q=loc:" + appNameWithLocations.get(pos).latitude + "," + appNameWithLocations.get(pos).longitude;
                 Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(strUri));
-
                 intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
-
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
             }
         });

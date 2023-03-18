@@ -20,7 +20,6 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     TextView usagesData;
     Button service_on_off_btn;
     LocationManager locationManager;
-    ArrayList<AppNameWithLocation> appNameWithLocations;
+    ArrayList<AppNameWithLocationTime> appNameWithLocationsTime;
     Boolean flag=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,10 +113,6 @@ public class MainActivity extends AppCompatActivity {
                         stopService(new Intent(MainActivity.this, AppUsagesBackgroundService.class));
                         service_on_off_btn.setText("START SERVICE");
 
-                        SharedPreferences sharedPreferences = getApplication().getSharedPreferences("Data",MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.clear().commit();
-
                         SharedPreferences finalResult = getApplication().getSharedPreferences("Result",MODE_PRIVATE);
                         SharedPreferences.Editor editorResult = finalResult.edit();
                         editorResult.clear().commit();
@@ -179,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onRestart() {
         super.onRestart();
 
-        appNameWithLocations = new ArrayList<AppNameWithLocation>();
+        appNameWithLocationsTime = new ArrayList<AppNameWithLocationTime>();
 
         SharedPreferences finalResult = getSharedPreferences("Result",MODE_PRIVATE);
 
@@ -188,22 +183,22 @@ public class MainActivity extends AppCompatActivity {
         for(long j=0; j<count; j++){
             Gson gson = new Gson();
             String json = finalResult.getString("ResultData"+j,null);
-            Type type = new TypeToken<ArrayList<AppNameWithLocation>>(){
+            Type type = new TypeToken<ArrayList<AppNameWithLocationTime>>(){
             }.getType();
 
-            appNameWithLocations = gson.fromJson(json,type);
-            if(appNameWithLocations!=null){
+            appNameWithLocationsTime = gson.fromJson(json,type);
+            if(appNameWithLocationsTime !=null){
                 LinearLayoutManager linearLayout = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
                 recycleView.setLayoutManager(linearLayout);
-                recycleView.setAdapter(new recycleViewAdapter(appNameWithLocations, getApplicationContext()));
-                for(int i=0; i<appNameWithLocations.size(); i++){
-                    String[] packageParts = appNameWithLocations.get(i).appName.split("\\.");
+                recycleView.setAdapter(new recycleViewAdapter(appNameWithLocationsTime, getApplicationContext()));
+                for(int i = 0; i< appNameWithLocationsTime.size(); i++){
+                    String[] packageParts = appNameWithLocationsTime.get(i).appName.split("\\.");
                     String appName = packageParts[packageParts.length-1];
                     String firstChar = appName.substring(0, 1).toUpperCase();
                     String restOfStr = appName.substring(1).toLowerCase();
                     appName = firstChar + restOfStr;
 
-                    Log.i("Result", appName+" "+appNameWithLocations.get(i).latitude+" "+appNameWithLocations.get(i).longitude);
+                    Log.i("Result", appName+" "+ appNameWithLocationsTime.get(i).latitude+" "+ appNameWithLocationsTime.get(i).longitude);
                 }
             }
             else{

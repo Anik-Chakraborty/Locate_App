@@ -1,20 +1,28 @@
 package com.example.locateapp;
 
-import androidx.recyclerview.widget.RecyclerView;
-
-public class AppNameWithLocation {
+public class AppNameWithLocationTime {
 
     String appName;
     double latitude, longitude;
+    String time;
 
-    public AppNameWithLocation() {
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public AppNameWithLocationTime() {
 
     }
 
-    public AppNameWithLocation(String appName,double latitude, double longitude) {
+    public AppNameWithLocationTime(String appName,double latitude, double longitude, String time) {
         this.appName = appName;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.time = time;
     }
 
     public String getAppName() {

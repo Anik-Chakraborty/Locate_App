@@ -78,7 +78,7 @@ public class AppUsagesBackgroundService extends Service implements LocationListe
 
             //
         } else {
-            locationManager.requestLocationUpdates(GPS_PROVIDER, 20000, 0,this);
+            locationManager.requestLocationUpdates(GPS_PROVIDER, 20000, 50,this);
         }
 
         //store app name along with usages time in shared preference
